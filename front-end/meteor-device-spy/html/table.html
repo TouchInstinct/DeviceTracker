@@ -1,0 +1,40 @@
+<template name="devices_table">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Устройство</th>
+        <th>Владелец</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{> devices_list}}
+    </tbody>
+  </table>
+</template>
+
+<template name="devices_list">
+  {{#each device}}
+    <tr>
+      <td>
+        <div>
+          <b>{{type}}</b>
+        </div>
+        <div>
+          {{os_type}} {{os_version}} {{screen_width}}x{{screen_height}}
+        </div>
+      </td>
+  		<td>
+        <div>
+          <b>{{get_name_by_id}}</b>
+        </div>
+        <div>
+          {{checkin_date}}
+        </div>
+      </td>
+  	</tr>
+  {{else}}
+    <td>
+  	 В списке нет устройств.
+  	</td>
+  {{/each}}
+</template>

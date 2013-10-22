@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "reststop2": {}
+    },
+    "packages": {
+      "reststop2": {
+        "git": "https://github.com/BeDifferential/reststop2.git",
+        "tag": "v0.5.2",
+        "commit": "3b7a7da92911585e6c6906c2c1cd6e4c39d8300c"
+      }
+    }
+  }
+}
