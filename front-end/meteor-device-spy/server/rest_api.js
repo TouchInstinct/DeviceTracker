@@ -13,9 +13,18 @@ Meteor.startup(function () {
     var param = this.params.param;
     var mac = param.substring(0, 12);
     var uid = param.substring(13);
-
+    
+    mac = mac.toUpperCase();
     var user = Users.findOne({MAC: mac});
-    if (!user) return "Can't find such MAC-address in db";
+    if (!user) {
+
+      mac = mac.toLowerCase();
+      user = Users.findOne({MAC: mac});
+      if (!user)
+        return res+" Can't find such MAC-address in db";
+        return "Can't find such MAC-address in db";
+
+    }
 
     var d = Devices.findOne({id: uid});
     if (!d) return "Can't find such device";
