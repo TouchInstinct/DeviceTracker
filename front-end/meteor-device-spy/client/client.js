@@ -7,7 +7,7 @@ Template.devices_list.device = function () {
 
 Template.devices_list.get_name_by_id = function () {
   var owner = Users.findOne({_id: this.owner_id});
-  if (!owner) return "Не задано";
+  if (!owner) return "Не известно";
   return owner.name + " " + owner.surname;
 };
 // ----------
