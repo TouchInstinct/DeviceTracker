@@ -2,7 +2,7 @@ Session.set("session_devices_type", "iPhone/iPod");
 
 // ----------
 Template.devices_list.device = function () {
-  return Devices.find({os_type : Session.get("session_devices_type")}, {sort: {checkin_date: -1}});
+  return Devices.find({device_type : Session.get("session_devices_type")}, {sort: {checkin_date: -1}});
 };
 
 Template.devices_list.get_name_by_id = function () {

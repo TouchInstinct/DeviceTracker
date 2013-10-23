@@ -24,7 +24,7 @@ Meteor.startup(function () {
     if (!device)
       return "Can't find such device-ID";
 
-    console.log("-------- Устройство: ", device.type);
+    console.log("-------- Устройство: ", device.name);
 
     var checkinDate = GetCurrentDateAndTime ();
     Devices.update(device._id, {$set: {checkin_date: checkinDate, owner_id: user._id}});
