@@ -10,36 +10,24 @@ Meteor.startup(function () {
   RESTstop.configure({use_auth: false});
 
   RESTstop.add('checkin/:param', function () {
-    var param = this.params.param;
-    console.log("Пришел запрос: " + param);
+    var param = this.params.param;    
 
     var mac = param.substring(0, 12);
     var uid = param.substring(13);
+    console.log("Пришел запрос: MAC = " + mac + ", UID = " + uid);
     
-    mac = mac.toUpperCase();
-    var user = Users.findOne({MAC: mac});
-    if (!user) {
+    var user = GetUserByMAC(mac);
+    if (!user) 
+      return "Can't find such MAC-addreses";
 
-      mac = mac.toLowerCase();
-      user = Users.findOne({MAC: mac});
-      if (!user)
+    var device = GetDeviceById(uid);
+    if (!device)
+      return "Can't find such device-ID";
 
-        console.log("-------- Такого мак адреса в базе нет: " + mac.toUpperCase());
-        return "Can't find such MAC-address in db";
+    console.log("-------- Устройство: ", device.type);
 
-    }
-
-    var d = Devices.findOne({id: uid});
-    if (!d) {
-
-      console.log("--------  Устройства в базе нет: " + uid);
-      return "Can't find such device";
-
-    }
-    console.log("-------- Устройство: ", d.type);
-
-    var checkin_time = GetCurrentDateAndTime ();
-    Devices.update(d._id, {$set: {checkin_date: checkin_time, owner_id: user._id}});
+    var checkinDate = GetCurrentDateAndTime ();
+    Devices.update(device._id, {$set: {checkin_date: checkinDate, owner_id: user._id}});
   });
 
 });
@@ -60,4 +48,29 @@ function GetCurrentDateAndTime () {
   if (months < 10) months = "0" + months;
 
   return hours + ":" + minutes + " " + days + "." + months + "." + date.getFullYear();
+}
+
+function GetUserByMAC(mac) {
+  mac = mac.toUpperCase();
+  var user = Users.findOne({MAC_Addresses: mac});
+
+  if (!user) {
+    mac = mac.toLowerCase();
+    user = Users.findOne({MAC_Addresses: mac});
+    if (!user)
+      console.log("-------- Такого МАС-адреса в базе нет: " + mac.toUpperCase());
+  }
+
+  if (user)
+    console.log("-------- Подключил: " + user.name + " " + user.surname);
+
+  return user;
+}
+
+function GetDeviceById(uid) {
+  var d = Devices.findOne({id: uid});
+  if (!d) 
+    console.log("-------- Такого устройства в базе нет: " + uid);
+
+  return d;
 }
