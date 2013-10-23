@@ -11,6 +11,8 @@ Meteor.startup(function () {
 
   RESTstop.add('checkin/:param', function () {
     var param = this.params.param;
+    console.log("Пришел запрос: " + param);
+
     var mac = param.substring(0, 12);
     var uid = param.substring(13);
     
@@ -21,13 +23,20 @@ Meteor.startup(function () {
       mac = mac.toLowerCase();
       user = Users.findOne({MAC: mac});
       if (!user)
-        return res+" Can't find such MAC-address in db";
+
+        console.log("-------- Такого мак адреса в базе нет: " + mac.toUpperCase());
         return "Can't find such MAC-address in db";
 
     }
 
     var d = Devices.findOne({id: uid});
-    if (!d) return "Can't find such device";
+    if (!d) {
+
+      console.log("--------  Устройства в базе нет: " + uid);
+      return "Can't find such device";
+
+    }
+    console.log("-------- Устройство: ", d.type);
 
     var checkin_time = GetCurrentDateAndTime ();
     Devices.update(d._id, {$set: {checkin_date: checkin_time, owner_id: user._id}});
