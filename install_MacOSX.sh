@@ -45,7 +45,7 @@ sudo tee /usr/local/bin/DeviceTracker/DeviceTracker.sh > /dev/null <<'EOF'
 	mono UsbPhoneTracker.Mac.exe $1
 EOF
 
-sudo launchctl unload /LaunchDaemons/LaunchDaemons/DeviceTracker.plist 2>> /dev/null
+sudo launchctl unload /Library/LaunchDaemons/DeviceTracker.plist 2>> /dev/null
 sudo launchctl load /Library/LaunchDaemons/DeviceTracker.plist 2>> /dev/null
 sudo launchctl start DeviceTracker
 
