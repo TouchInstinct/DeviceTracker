@@ -10,6 +10,10 @@ Template.devices_list.get_name_by_id = function () {
   if (!owner) return "Не известно";
   return owner.name + " " + owner.surname;
 };
+
+Template.devices_list.get_checkin_date = function () {
+	return GetTimeAndDateFromDate(this.checkin_date);
+};
 // ----------
 
 // ----------

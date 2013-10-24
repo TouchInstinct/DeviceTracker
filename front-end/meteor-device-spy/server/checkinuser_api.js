@@ -9,7 +9,7 @@ Meteor.startup(function () {
 			return "Can't find such MAC-addreses";
 
 		var date = new Date();
-		Log_User_Login.insert({name: user.name, surname: user.sername, login_date: date});
+		Log_User_Login.insert({name: user.name, surname: user.surname, login_date: date});
 	});
 
 });
