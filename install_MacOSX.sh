@@ -39,11 +39,8 @@ sudo tee /Library/LaunchDaemons/DeviceTracker.plist > /dev/null <<'EOF'
 EOF
 
 sudo touch /usr/local/bin/DeviceTracker/DeviceTracker.sh
-sudo chmod +x /usr/local/bin/DeviceTracker/DeviceTracker.sh
-sudo tee /usr/local/bin/DeviceTracker/DeviceTracker.sh > /dev/null <<'EOF'
-	cd /usr/local/bin/DeviceTracker
-	mono UsbPhoneTracker.Mac.exe $1
-EOF
+echo "cd /usr/local/bin/DeviceTracker" | sudo tee /usr/local/bin/DeviceTracker/DeviceTracker.sh > /dev/null
+echo "mono UsbPhoneTracker.Mac.exe $1 >/var/tmp/DeviceTracker.log" | sudo tee -a /usr/local/bin/DeviceTracker/DeviceTracker.sh > /dev/null
 
 sudo launchctl unload /Library/LaunchDaemons/DeviceTracker.plist 2>> /dev/null
 sudo launchctl load /Library/LaunchDaemons/DeviceTracker.plist 2>> /dev/null
