@@ -1,11 +1,11 @@
 Meteor.startup(function () {
 
-  RESTstop.add('checkin/:param', function () {
+  RESTstop.add('checkindevice/:param', function () {
     var param = this.params.param;    
 
     var mac = param.substring(0, 12);
     var uid = param.substring(13);
-    console.log("Пришел запрос: MAC = " + mac + ", UID = " + uid);
+    console.log("Запрос api-метода checkindevice: MAC = " + mac + ", UID = " + uid);
     
     var user = GetUserByMAC(mac);
     if (!user) 
