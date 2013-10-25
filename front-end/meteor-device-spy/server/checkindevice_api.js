@@ -17,7 +17,10 @@ Meteor.startup(function () {
 
     console.log("-------- Устройство: ", device.name);
 
-    Devices.update(device._id, {$set: {checkin_date: new Date(), owner_id: user._id}});
+    Devices.update(device._id, {$set: {checkin_date: new Date(), 
+      owner_id: user._id, 
+      owner_name: user.name, 
+      owner_surname: user.surname}});
   });
 
 });
