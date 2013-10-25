@@ -24,22 +24,26 @@ sudo tee /Library/LaunchDaemons/DeviceTracker.plist > /dev/null <<'EOF'
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Debug</key>
+	<true/>
 	<key>KeepAlive</key>
-		<true/>
+	<true/>
 	<key>Label</key>
-  		<string>DeviceTracker</string>
-  	<key>ProgramArguments</key>
-  		<array>
-			<string>/usr/local/bin/DeviceTracker/DeviceTracker.sh</string>
-		</array>
+	<string>DeviceTracker</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/DeviceTracker/DeviceTracker.sh</string>
+	</array>
 	<key>RunAtLoad</key>
-		<true/>
+	<true/>
+	<key>WorkingDirectory</key>
+	<string>/usr/local/bin/DeviceTracker</string>
 </dict>
 </plist>
 EOF
 
 sudo touch /usr/local/bin/DeviceTracker/DeviceTracker.sh
-echo "cd /usr/local/bin/DeviceTracker" | sudo tee /usr/local/bin/DeviceTracker/DeviceTracker.sh > /dev/null
+sudo chmod +x /usr/local/bin/DeviceTracker/DeviceTracker.sh
 echo "mono UsbPhoneTracker.Mac.exe $1 >/var/tmp/DeviceTracker.log" | sudo tee -a /usr/local/bin/DeviceTracker/DeviceTracker.sh > /dev/null
 
 sudo launchctl unload /Library/LaunchDaemons/DeviceTracker.plist 2>> /dev/null
