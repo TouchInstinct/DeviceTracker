@@ -8,8 +8,8 @@ brew install node
 curl https://install.meteor.com | sh
 
 # install forever
-npm install forever -g
-npm install -g meteorite
+sudo npm install -g forever
+sudo npm install -g meteorite
 
 git clone https://github.com/TouchInstinct/DeviceTracker.git
 cd DeviceTracker/front-end/meteor-device-spy
@@ -32,11 +32,13 @@ tee ~/Library/LaunchAgents/DeviceTracker-front-end.plist > /dev/null <<'EOF'
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>EnableGlobbing</key>
+	<true/>
 	<key>Label</key>
 	<string>DeviceTracker-front-end</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/usr/local/bin/startDeviceTracker-front-end.sh</string>
+		<string>~/.local/DeviceTracker/start.sh</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
@@ -46,15 +48,16 @@ tee ~/Library/LaunchAgents/DeviceTracker-front-end.plist > /dev/null <<'EOF'
 </plist>
 EOF
 
-sudo touch /usr/local/bin/startDeviceTracker-front-end.sh
-sudo chmod +x /usr/local/bin/startDeviceTracker-front-end.sh
-sudo tee /usr/local/bin/startDeviceTracker-front-end.sh > /dev/null <<'EOF'
+touch ~/.local/DeviceTracker/start.sh
+chmod +x ~/.local/DeviceTracker/start.sh
+tee ~/.local/DeviceTracker/start.sh > /dev/null <<'EOF'
 #!/bin/bash
 export MONGO_URL="mongodb://localhost:27017/meteor"
-export ROOT_URL="http://mac10.touchin.ru"
+export ROOT_URL="http://192.168.1.5"
 export PORT=3000
+export PATH=/usr/local/bin/:$PATH
 cd ~/.local/DeviceTracker
-forever main.js &
+forever start main.js
 EOF
 
 launchctl unload ~/Library/LaunchAgents/DeviceTracker-front-end.plist 2>/dev/null
