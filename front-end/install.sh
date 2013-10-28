@@ -1,17 +1,23 @@
 #!/bin/bash
 
-#install node.js
-brew update
-brew install node
+if [ ! -e ./DeviceTracker ]; then
+	#install node.js
+	brew update
+	brew install node
 
-# install meteor
-curl https://install.meteor.com | sh
+	# install meteor
+	curl https://install.meteor.com | sh
 
-# install forever
-sudo npm install -g forever
-sudo npm install -g meteorite
+	# install forever
+	sudo npm install -g forever
+	sudo npm install -g meteorite
 
-git clone https://github.com/TouchInstinct/DeviceTracker.git
+	git clone https://github.com/TouchInstinct/DeviceTracker.git
+else
+	cd DeviceTracker
+	git pull
+	cd ../
+fi
 cd DeviceTracker/front-end/meteor-device-spy
 
 mrt add reststop2
@@ -22,6 +28,7 @@ meteor bundle DeviceTracker.tar.gz
 rm -rf ~/.local/DeviceTrackerls 
 tar -zxf DeviceTracker.tar.gz -C ~/.local
 mv ~/.local/bundle ~/.local/DeviceTracker
+rm DeviceTracker.tar.gz
 cd ~/.local/DeviceTracker
 
 
@@ -53,11 +60,18 @@ chmod +x ~/.local/DeviceTracker/start.sh
 tee ~/.local/DeviceTracker/start.sh > /dev/null <<'EOF'
 #!/bin/bash
 export MONGO_URL="mongodb://localhost:27017/meteor"
-export ROOT_URL="http://192.168.1.5"
 export PORT=3000
 export PATH=/usr/local/bin/:$PATH
+
+forever stopall
+
 cd ~/.local/DeviceTracker
-forever start main.js
+
+cat /dev/null > forever.log
+cat /dev/null > out.log
+cat /dev/null > err.log
+
+forever start main.js -l forever.log -o out.log -r err.log
 EOF
 
 launchctl unload ~/Library/LaunchAgents/DeviceTracker-front-end.plist 2>/dev/null
