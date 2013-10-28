@@ -7,7 +7,7 @@ if [ ! -e ./DeviceTracker ]; then
 	brew install node
 
 	# install meteor
-	curl https://install.meteor.com | sh
+	sudo npm install -g meteor
 
 	# install forever
 	sudo npm install -g forever
