@@ -3,6 +3,7 @@
 if [ ! -e ./DeviceTracker ]; then
 	#install node.js
 	brew update
+	brew install mongo
 	brew install node
 
 	# install meteor
@@ -59,7 +60,7 @@ touch ~/.local/DeviceTracker/start.sh
 chmod +x ~/.local/DeviceTracker/start.sh
 tee ~/.local/DeviceTracker/start.sh > /dev/null <<'EOF'
 #!/bin/bash
-export MONGO_URL="mongodb://localhost:27017/meteor"
+export MONGO_URL="mongodb://localhost:27017/devicetracker"
 export PORT=3000
 export PATH=/usr/local/bin/:$PATH
 
