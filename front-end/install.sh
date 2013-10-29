@@ -18,6 +18,8 @@ else
 	cd DeviceTracker
 	git pull
 	cd ../
+
+	forever stop main.js
 fi
 cd DeviceTracker/front-end/meteor-device-spy
 
@@ -26,7 +28,7 @@ mrt add bootstrap-3
 
 meteor bundle DeviceTracker.tar.gz
 
-rm -rf ~/.local/DeviceTrackerls 
+rm -rf ~/.local/DeviceTracker 
 tar -zxf DeviceTracker.tar.gz -C ~/.local
 mv ~/.local/bundle ~/.local/DeviceTracker
 rm DeviceTracker.tar.gz
@@ -63,8 +65,6 @@ tee ~/.local/DeviceTracker/start.sh > /dev/null <<'EOF'
 export MONGO_URL="mongodb://localhost:27017/devicetracker"
 export PORT=3000
 export PATH=/usr/local/bin/:$PATH
-
-forever stopall
 
 cd ~/.local/DeviceTracker
 
