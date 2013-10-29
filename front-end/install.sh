@@ -72,7 +72,7 @@ cat /dev/null > forever.log
 cat /dev/null > out.log
 cat /dev/null > err.log
 
-forever start main.js -l forever.log -o out.log -r err.log
+forever start -l forever.log -o out.log -r err.log main.js
 EOF
 
 launchctl unload ~/Library/LaunchAgents/DeviceTracker-front-end.plist 2>/dev/null
